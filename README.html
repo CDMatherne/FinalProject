@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AIS Shipping Fraud Detection (SFD) System - Comprehensive documentation">
+    <title>AIS Shipping Fraud Detection (SFD) System - Documentation</title>
+    
+    <!-- Mermaid.js for diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --text-color: #1f2937;
+            --text-light: #6b7280;
+            --bg-color: #ffffff;
+            --bg-light: #f9fafb;
+            --bg-dark: #111827;
+            --border-color: #e5e7eb;
+            --code-bg: #1e293b;
+            --code-text: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-light);
+            font-size: 16px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .header-logo {
+            height: 140px;
+            width: auto;
+            flex-shrink: 0;
+        }
+        
+        .header-text {
+            flex: 1;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header .version {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 0.25rem;
+        }
+        
+        .header .team {
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        
+        .sidebar h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .sidebar nav ul {
+            list-style: none;
+        }
+        
+        .sidebar nav ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar nav a:hover {
+            background-color: var(--bg-light);
+            color: var(--primary-color);
+            padding-left: 1rem;
+        }
+        
+        .sidebar nav a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Typography */
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-color);
+        }
+        
+        h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+        
+        h5 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            border-radius: 6px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow);
+        }
+        
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        pre code {
+            color: var(--code-text);
+            background: transparent;
+            padding: 0;
+        }
+        
+        /* Inline code */
+        :not(pre) > code {
+            background-color: var(--bg-light);
+            color: var(--primary-color);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Blockquotes */
+        blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            color: var(--text-light);
+            font-style: italic;
+        }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow);
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: var(--bg-light);
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        tr:hover {
+            background-color: var(--bg-light);
+        }
+        
+        /* Badges and Tags */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 0.25rem;
+        }
+        
+        .badge-success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        
+        /* Alerts/Info Boxes */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+        
+        .alert-info {
+            background-color: #eff6ff;
+            border-color: var(--primary-color);
+            color: #1e40af;
+        }
+        
+        .alert-warning {
+            background-color: #fffbeb;
+            border-color: var(--warning-color);
+            color: #92400e;
+        }
+        
+        .alert-success {
+            background-color: #f0fdf4;
+            border-color: var(--success-color);
+            color: #166534;
+        }
+        
+        /* Mermaid Diagrams */
+        .mermaid {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+        
+        /* Flow Diagrams */
+        .flow-diagram {
+            background: var(--bg-light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            white-space: pre;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Feature List */
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-item {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        /* Horizontal Rule */
+        hr {
+            border: none;
+            border-top: 2px solid var(--border-color);
+            margin: 2rem 0;
+        }
+        
+        /* Links */
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--bg-dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Print Styles */
+        @media print {
+            .sidebar {
+                display: none;
+            }
+            
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                position: static;
+            }
+            
+            .main-content {
+                box-shadow: none;
+                border: none;
+            }
+            
+            a {
+                color: var(--text-color);
+            }
+            
+            a[href^="http"]:after {
+                content: " (" attr(href) ")";
+                font-size: 0.8em;
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+                margin-bottom: 2rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .header-logo {
+                height: 100px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .main-content {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .scroll-top.visible {
+            opacity: 1;
+        }
+        
+        .scroll-top:hover {
+            background: var(--secondary-color);
+        }
+        
+        /* Checkmarks */
+        .checkmark {
+            color: var(--success-color);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        /* Section anchors */
+        .section-anchor {
+            display: block;
+            height: 80px;
+            margin-top: -80px;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <img src="SFDLoad.png" alt="SFD System Logo" class="header-logo">
+            <div class="header-text">
+                <h1>AIS Shipping Fraud Detection (SFD) System</h1>
+                <div class="version">Version 2.1 Beta</div>
+                <div class="team">Team Dreadnaught: Alex Giacomello, Christopher Matherne, Rupert Rigg, Zachary Zhao</div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <h3>Table of Contents</h3>
+            <nav>
+                <ul>
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#system-requirements">System Requirements</a></li>
+                    <li><a href="#installation">Installation</a></li>
+                    <li><a href="#quick-start">Quick Start Guide</a></li>
+                    <li><a href="#detailed-usage">Detailed Usage</a></li>
+                    <li><a href="#data-flow">Data Flow Architecture</a></li>
+                    <li><a href="#configuration">Configuration</a></li>
+                    <li><a href="#output-files">Output Files</a></li>
+                    <li><a href="#troubleshooting">Troubleshooting</a></li>
+                    <li><a href="#advanced-topics">Advanced Topics</a></li>
+                    <li><a href="#resources">Additional Resources</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <span id="overview" class="section-anchor"></span>
+            <h1>Overview</h1>
+            <p>The AIS Shipping Fraud Detection (SFD) System is a comprehensive analysis platform designed to detect anomalous vessel behavior patterns in Automatic Identification System (AIS) data. The system combines traditional anomaly detection algorithms with advanced machine learning capabilities to identify potential fraud, suspicious activities, and compliance violations in maritime traffic.</p>
+            
+            <h3>Three Major Components</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h4>1. Initial Analysis</h4>
+                    <p>Automated anomaly detection on AIS data</p>
+                </div>
+                <div class="feature-item">
+                    <h4>2. Advanced Analysis</h4>
+                    <p>Interactive tools for deep-dive investigations</p>
+                </div>
+                <div class="feature-item">
+                    <h4>3. ML Course Prediction</h4>
+                    <p>Machine learning-powered vessel trajectory forecasting</p>
+                </div>
+            </div>
+            
+            <h3>What It Does</h3>
+            <ul>
+                <li><strong>Detects Anomalies</strong>: Identifies suspicious vessel behaviors including:
+                    <ul>
+                        <li>AIS beacon manipulation (sudden on/off)</li>
+                        <li>Impossible speed/distance jumps</li>
+                        <li>Course inconsistencies</li>
+                        <li>Restricted zone violations</li>
+                        <li>Loitering patterns</li>
+                    </ul>
+                </li>
+                <li><strong>Analyzes Patterns</strong>: Provides statistical analysis tools for:
+                    <ul>
+                        <li>Correlation analysis between vessel types and anomalies</li>
+                        <li>Temporal pattern detection</li>
+                        <li>Vessel behavior clustering</li>
+                    </ul>
+                </li>
+                <li><strong>Predicts Trajectories</strong>: Uses deep learning to forecast vessel positions up to 48 hours ahead with uncertainty quantification</li>
+            </ul>
+            
+            <hr>
+            
+            <span id="features" class="section-anchor"></span>
+            <h1>Features</h1>
+            
+            <h3>Core Capabilities</h3>
+            <ul>
+                <li><span class="checkmark">✓</span> <strong>Multiple Data Sources</strong>: NOAA AIS data, local files, or AWS S3 buckets</li>
+                <li><span class="checkmark">✓</span> <strong>Automated Processing</strong>: Batch processing of date ranges</li>
+                <li><span class="checkmark">✓</span> <strong>Intelligent Caching</strong>: Reduces processing time on subsequent runs</li>
+                <li><span class="checkmark">✓</span> <strong>GPU Acceleration</strong>: Optional NVIDIA CUDA or AMD ROCm support</li>
+                <li><span class="checkmark">✓</span> <strong>Interactive Visualizations</strong>: HTML maps, charts, and reports</li>
+                <li><span class="checkmark">✓</span> <strong>Machine Learning Integration</strong>: Deep learning course prediction</li>
+                <li><span class="checkmark">✓</span> <strong>Comprehensive Reporting</strong>: HTML summaries, CSV exports, interactive maps</li>
+            </ul>
+            
+            <h3>Anomaly Detection Types</h3>
+            <ul>
+                <li><strong>AIS Beacon On/Off</strong>: Detects vessels that suddenly appear or disappear</li>
+                <li><strong>Speed Anomalies</strong>: Identifies impossible position jumps</li>
+                <li><strong>Course Anomalies</strong>: Flags inconsistent heading/course changes</li>
+                <li><strong>Zone Violations</strong>: Monitors entry into restricted areas</li>
+                <li><strong>Loitering Detection</strong>: Identifies vessels with minimal movement</li>
+            </ul>
+            
+            <h3>Advanced Analysis Tools</h3>
+            <ul>
+                <li>Vessel search and filtering</li>
+                <li>Statistical correlation analysis</li>
+                <li>Temporal pattern analysis</li>
+                <li>Vessel behavior clustering (K-Means)</li>
+                <li>Interactive map visualizations</li>
+                <li>Excel report generation</li>
+            </ul>
+            
+            <h3>Machine Learning Features</h3>
+            <ul>
+                <li>Hybrid LSTM-Transformer architecture</li>
+                <li>48-hour trajectory prediction</li>
+                <li>Uncertainty quantification</li>
+                <li>Autoregressive prediction</li>
+                <li>Interactive prediction visualization</li>
+            </ul>
+            
+            <hr>
+            
+            <span id="system-requirements" class="section-anchor"></span>
+            <h1>System Requirements</h1>
+            
+            <h3>Minimum Requirements</h3>
+            <ul>
+                <li><strong>Operating System</strong>: Windows 10/11, Linux (Ubuntu 18.04+), or macOS 10.14+</li>
+                <li><strong>Python</strong>: 3.8 or higher (3.9+ recommended)</li>
+                <li><strong>RAM</strong>: 8 GB minimum (16 GB recommended for large datasets)</li>
+                <li><strong>Storage</strong>: 10 GB free space (more for large date ranges)</li>
+                <li><strong>Internet</strong>: Required for NOAA data downloads</li>
+            </ul>
+            
+            <h3>Recommended Requirements</h3>
+            <ul>
+                <li><strong>CPU</strong>: Multi-core processor (4+ cores)</li>
+                <li><strong>RAM</strong>: 16 GB or more</li>
+                <li><strong>GPU</strong>: Optional but recommended for ML predictions
+                    <ul>
+                        <li>NVIDIA GPU with CUDA support, or</li>
+                        <li>AMD GPU with ROCm support</li>
+                    </ul>
+                </li>
+                <li><strong>Storage</strong>: SSD with 50+ GB free space</li>
+            </ul>
+            
+            <div class="alert alert-info">
+                <strong>Python Version:</strong> The system supports Python 3.8 through 3.14. Python 3.9 or higher is recommended for best performance.
+            </div>
+            
+            <hr>
+            
+            <span id="installation" class="section-anchor"></span>
+            <h1>Installation</h1>
+            
+            <h3>Step 1: Install Python</h3>
+            <p>If Python is not already installed:</p>
+            <ul>
+                <li><strong>Windows</strong>: Download from <a href="https://www.python.org/downloads/" target="_blank">python.org</a></li>
+                <li><strong>Linux</strong>: <code>sudo apt-get install python3 python3-pip</code> (Ubuntu/Debian)</li>
+                <li><strong>macOS</strong>: <code>brew install python3</code> or download from python.org</li>
+            </ul>
+            
+            <p>Verify installation:</p>
+            <pre><code class="language-bash">python --version
+# Should show Python 3.8 or higher</code></pre>
+            
+            <h3>Step 2: Install System Dependencies</h3>
+            
+            <h4>Windows</h4>
+            <ul>
+                <li>tkinter is usually included with Python</li>
+                <li>No additional system packages required</li>
+            </ul>
+            
+            <h4>Linux</h4>
+            <pre><code class="language-bash"># Install tkinter (required for GUI)
+sudo apt-get install python3-tk
+
+# For Ubuntu/Debian
+sudo apt-get install build-essential</code></pre>
+            
+            <h4>macOS</h4>
+            <ul>
+                <li>tkinter is included with Python from python.org</li>
+                <li>If using Homebrew Python, may need: <code>brew install python-tk</code></li>
+            </ul>
+            
+            <h3>Step 3: Clone or Download the Project</h3>
+            <pre><code class="language-bash"># If using git
+git clone &lt;repository-url&gt;
+cd SFD_Beta_release-main
+
+# Or download and extract the ZIP file</code></pre>
+            
+            <h3>Step 4: Install Python Dependencies</h3>
+            <p>Navigate to the project directory and install requirements:</p>
+            <pre><code class="language-bash">cd SFD_Beta_release-main
+pip install -r requirements.txt</code></pre>
+            
+            <div class="alert alert-warning">
+                <strong>Note:</strong> This may take 10-20 minutes depending on your internet connection.
+            </div>
+            
+            <h4>GPU Support (Optional)</h4>
+            
+            <p><strong>For NVIDIA GPUs:</strong></p>
+            <pre><code class="language-bash"># Uninstall CPU-only PyTorch first
+pip uninstall torch torchvision torchaudio
+
+# Install CUDA-enabled PyTorch
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118</code></pre>
+            
+            <p><strong>For AMD GPUs:</strong></p>
+            <pre><code class="language-bash"># Install PyTorch with ROCm support
+# See: https://pytorch.org/get-started/locally/
+# Note: ROCm on Windows is experimental - Linux recommended</code></pre>
+            
+            <h3>Step 5: Verify Installation</h3>
+            <p>Run a quick test to ensure everything is installed:</p>
+            <pre><code class="language-bash">python -c "import pandas, numpy, torch, folium; print('All dependencies installed!')"</code></pre>
+            
+            <p>If you see "All dependencies installed!", you're ready to go!</p>
+            
+            <hr>
+            
+            <span id="quick-start" class="section-anchor"></span>
+            <h1>Quick Start Guide</h1>
+            
+            <h3>Launching the Application</h3>
+            
+            <h4>Option 1: GUI (Recommended for Beginners)</h4>
+            <pre><code class="language-bash">python SFD_GUI.py</code></pre>
+            <p>This opens the graphical user interface.</p>
+            
+            <h4>Option 2: Command Line</h4>
+            <pre><code class="language-bash">python SFD.py --start-date 2024-10-01 --end-date 2024-10-03 --data-source noaa --output-directory ./output</code></pre>
+            
+            <h3>Your First Analysis (5 Steps)</h3>
+            
+            <div class="card">
+                <h4>1. Launch the GUI</h4>
+                <pre><code class="language-bash">python SFD_GUI.py</code></pre>
+            </div>
+            
+            <div class="card">
+                <h4>2. Configure Data Source</h4>
+                <ul>
+                    <li>Go to the "Data" tab</li>
+                    <li>Select "NOAA" as data source</li>
+                    <li>Enter year (e.g., "2024")</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h4>3. Set Date Range</h4>
+                <ul>
+                    <li>Select start date (e.g., 2024-10-01)</li>
+                    <li>Select end date (e.g., 2024-10-03)</li>
+                    <li>Note: Start with 2-3 days for your first run</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h4>4. Choose Output Directory</h4>
+                <ul>
+                    <li>Click "Browse" next to "Output Directory"</li>
+                    <li>Select or create a folder for results</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h4>5. Run Analysis</h4>
+                <ul>
+                    <li>Click "Run Analysis" button</li>
+                    <li>Wait for processing to complete</li>
+                    <li>Results will be in your output directory</li>
+                </ul>
+            </div>
+            
+            <h3>Viewing Results</h3>
+            <p>After analysis completes:</p>
+            <ol>
+                <li>Navigate to your output directory</li>
+                <li>Open <code>Summary_Report_*.html</code> in a web browser</li>
+                <li>Review detected anomalies and statistics</li>
+                <li>Click "Advanced Analysis" button in GUI for deeper investigation</li>
+            </ol>
+            
+            <hr>
+            
+            <span id="detailed-usage" class="section-anchor"></span>
+            <h1>Detailed Usage</h1>
+            
+            <h2>Part 1: Initial Analysis</h2>
+            <p>The initial analysis performs automated anomaly detection on AIS data.</p>
+            
+            <h3>Using the GUI</h3>
+            
+            <h4>1. Data Tab Configuration</h4>
+            <ul>
+                <li><strong>Data Source</strong>: Choose from:
+                    <ul>
+                        <li><code>NOAA</code>: Download from NOAA servers (requires internet)</li>
+                        <li><code>Local</code>: Use files on your computer</li>
+                        <li><code>S3</code>: Access AWS S3 bucket (requires credentials)</li>
+                    </ul>
+                </li>
+                <li><strong>Date Range</strong>:
+                    <ul>
+                        <li>Start Date: First day to analyze</li>
+                        <li>End Date: Last day to analyze</li>
+                        <li>Recommended: Start with 2-3 days for testing</li>
+                    </ul>
+                </li>
+                <li><strong>Output Directory</strong>: Where results will be saved</li>
+            </ul>
+            
+            <h4>2. Filters Tab</h4>
+            <ul>
+                <li><strong>Vessel Types</strong>: Select specific vessel types to analyze
+                    <ul>
+                        <li>Type 30: Fishing vessels</li>
+                        <li>Type 70: Cargo vessels</li>
+                        <li>Type 80: Tanker vessels</li>
+                        <li>(See full list in GUI)</li>
+                    </ul>
+                </li>
+                <li><strong>Anomaly Types</strong>: Enable/disable specific anomaly detectors
+                    <ul>
+                        <li>AIS Beacon On/Off</li>
+                        <li>Speed Anomalies</li>
+                        <li>Course Anomalies</li>
+                        <li>Zone Violations</li>
+                        <li>Loitering</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h4>3. Zones Tab (Optional)</h4>
+            <ul>
+                <li>Define restricted zones</li>
+                <li>Set latitude/longitude boundaries</li>
+                <li>Enable zone violation detection</li>
+            </ul>
+            
+            <h4>4. Run Analysis</h4>
+            <ul>
+                <li>Click "Run Analysis" button</li>
+                <li>Progress window shows:
+                    <ul>
+                        <li>Data download progress (if using NOAA)</li>
+                        <li>Processing status</li>
+                        <li>Estimated completion time</li>
+                    </ul>
+                </li>
+                <li>Analysis may take 10-60 minutes depending on data size</li>
+            </ul>
+            
+            <h3>Using Command Line</h3>
+            <pre><code class="language-bash">python SFD.py \
+  --start-date 2024-10-01 \
+  --end-date 2024-10-03 \
+  --data-source noaa \
+  --output-directory ./output \
+  --debug</code></pre>
+            
+            <p><strong>Command Line Arguments:</strong></p>
+            <ul>
+                <li><code>--start-date</code>: Start date (YYYY-MM-DD)</li>
+                <li><code>--end-date</code>: End date (YYYY-MM-DD)</li>
+                <li><code>--data-source</code>: <code>noaa</code>, <code>local</code>, or <code>s3</code></li>
+                <li><code>--data-directory</code>: Path to local files (if using local source)</li>
+                <li><code>--output-directory</code>: Where to save results</li>
+                <li><code>--debug</code>: Enable debug logging</li>
+            </ul>
+            
+            <h3>What Happens During Initial Analysis</h3>
+            
+            <ol>
+                <li><strong>Data Acquisition</strong>
+                    <ul>
+                        <li>Downloads or loads AIS data files</li>
+                        <li>Checks cache for previously processed data</li>
+                        <li>Converts CSV to Parquet format (if needed)</li>
+                    </ul>
+                </li>
+                <li><strong>Data Preprocessing</strong>
+                    <ul>
+                        <li>Loads and validates data</li>
+                        <li>Filters by vessel type (if specified)</li>
+                        <li>Cleans invalid coordinates</li>
+                        <li>Removes unrealistic speeds</li>
+                        <li>Saves processed data to cache</li>
+                    </ul>
+                </li>
+                <li><strong>Anomaly Detection</strong>
+                    <ul>
+                        <li>Compares consecutive days of data</li>
+                        <li>Detects beacon on/off events</li>
+                        <li>Calculates speed anomalies</li>
+                        <li>Identifies course inconsistencies</li>
+                        <li>Checks zone violations</li>
+                        <li>Detects loitering patterns</li>
+                    </ul>
+                </li>
+                <li><strong>Output Generation</strong>
+                    <ul>
+                        <li>Creates anomaly summary CSV</li>
+                        <li>Generates HTML report</li>
+                        <li>Creates vessel path maps</li>
+                        <li>Saves statistics</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h2>Part 2: Advanced Analysis</h2>
+            <p>Advanced Analysis provides interactive tools for investigating detected anomalies and exploring data patterns.</p>
+            
+            <h3>Accessing Advanced Analysis</h3>
+            <ol>
+                <li><strong>After Initial Analysis</strong>
+                    <ul>
+                        <li>Click "Advanced Analysis" button in main GUI</li>
+                        <li>Or run: <code>python advanced_analysis.py</code></li>
+                    </ul>
+                </li>
+                <li><strong>Select Analysis Run</strong>
+                    <ul>
+                        <li>GUI shows list of previous analysis runs</li>
+                        <li>Select the run you want to investigate</li>
+                        <li>Click "Load" to load cached data</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h3>Available Tools</h3>
+            
+            <h4>1. Vessel Search & Filtering</h4>
+            <p><strong>Purpose</strong>: Find specific vessels or filter by criteria</p>
+            <p><strong>How to Use</strong>:</p>
+            <ol>
+                <li>Click "Vessel Search" in Advanced Analysis GUI</li>
+                <li>Enter search criteria:
+                    <ul>
+                        <li>MMSI number</li>
+                        <li>Vessel name (if available)</li>
+                        <li>Vessel type</li>
+                        <li>Date range</li>
+                    </ul>
+                </li>
+                <li>Click "Search"</li>
+                <li>Results show:
+                    <ul>
+                        <li>Vessel information</li>
+                        <li>Anomaly history</li>
+                        <li>Trajectory data</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h4>2. Statistical Analysis</h4>
+            
+            <p><strong>Correlation Analysis</strong>:</p>
+            <ul>
+                <li>Analyzes relationships between vessel types and anomaly types</li>
+                <li>Generates correlation matrices</li>
+                <li>Helps identify patterns (e.g., "Type 70 vessels often show speed anomalies")</li>
+            </ul>
+            
+            <p><strong>How to Use</strong>:</p>
+            <ol>
+                <li>Click "Correlation Analysis"</li>
+                <li>Select up to 2 vessel types</li>
+                <li>Select up to 2 anomaly types</li>
+                <li>Click "Run Analysis"</li>
+                <li>Review correlation results</li>
+            </ol>
+            
+            <p><strong>Temporal Pattern Analysis</strong>:</p>
+            <ul>
+                <li>Identifies time-based patterns in anomalies</li>
+                <li>Shows when anomalies are most common</li>
+                <li>Helps identify systematic issues</li>
+            </ul>
+            
+            <p><strong>Vessel Behavior Clustering</strong>:</p>
+            <ul>
+                <li>Groups vessels by behavior patterns</li>
+                <li>Uses K-Means clustering algorithm</li>
+                <li>Helps identify vessel groups with similar behaviors</li>
+            </ul>
+            
+            <h4>3. Visualization Tools</h4>
+            <ul>
+                <li><strong>Interactive Maps</strong>: Folium-based interactive maps showing vessel trajectories and anomaly locations</li>
+                <li><strong>Statistical Charts</strong>: Time series plots, distribution charts, correlation heatmaps</li>
+                <li><strong>Excel Reports</strong>: Comprehensive data tables with embedded charts</li>
+            </ul>
+            
+            <h4>4. ML Course Prediction</h4>
+            <p><strong>Purpose</strong>: Predict future vessel positions using machine learning</p>
+            
+            <p><strong>Prerequisites</strong>:</p>
+            <ul>
+                <li>Trained ML model (<code>best_model.pt</code> in <code>ml_course_prediction/models/trained/</code>)</li>
+                <li>Vessel with sufficient historical data (≥24 hours, ≥2 data points)</li>
+            </ul>
+            
+            <p><strong>How to Use</strong>:</p>
+            <ol>
+                <li>In Advanced Analysis, search for a vessel</li>
+                <li>Select a vessel from results</li>
+                <li>Click "Predict Course" button</li>
+                <li>System will:
+                    <ul>
+                        <li>Load vessel trajectory data</li>
+                        <li>Prepare features</li>
+                        <li>Load ML model</li>
+                        <li>Generate 48-hour prediction (8 time steps)</li>
+                        <li>Display interactive map with:
+                            <ul>
+                                <li>Historical trajectory (blue line)</li>
+                                <li>Predicted path (green line)</li>
+                                <li>Uncertainty bounds (shaded area)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h2>Part 3: Machine Learning Integration</h2>
+            <p>The ML Course Prediction system uses a hybrid LSTM-Transformer architecture to predict vessel trajectories.</p>
+            
+            <h3>How ML Prediction Works</h3>
+            <ol>
+                <li><strong>Data Preparation</strong>
+                    <ul>
+                        <li>Extracts vessel trajectory from cached data</li>
+                        <li>Filters to last 24 hours of data</li>
+                        <li>Validates minimum data requirements (≥2 points, ≥1 hour span)</li>
+                    </ul>
+                </li>
+                <li><strong>Trajectory Processing</strong>
+                    <ul>
+                        <li>Segments trajectory (splits on gaps >6 hours)</li>
+                        <li>Selects most recent valid segment</li>
+                        <li>Ensures minimum requirements met</li>
+                    </ul>
+                </li>
+                <li><strong>Feature Engineering</strong>
+                    <ul>
+                        <li>Extracts features: Position (LAT, LON), Speed (SOG), Course (COG), Heading, Temporal features, Vessel features</li>
+                        <li>Creates sequence of 24 time steps</li>
+                        <li>Converts to tensor format</li>
+                    </ul>
+                </li>
+                <li><strong>Model Inference</strong>
+                    <ul>
+                        <li>Loads trained HybridLSTMTransformer model</li>
+                        <li>Performs autoregressive prediction for 8 time steps (48 hours)</li>
+                        <li>Generates uncertainty estimates</li>
+                    </ul>
+                </li>
+                <li><strong>Visualization</strong>
+                    <ul>
+                        <li>Creates interactive Folium map</li>
+                        <li>Displays historical and predicted paths</li>
+                        <li>Shows uncertainty bounds</li>
+                        <li>Opens in web browser</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h3>ML Model Architecture</h3>
+            <ul>
+                <li><strong>LSTM Encoder</strong>: Processes sequential patterns
+                    <ul>
+                        <li>Bidirectional LSTM</li>
+                        <li>Hidden size: 128</li>
+                        <li>2 layers with dropout (0.2)</li>
+                    </ul>
+                </li>
+                <li><strong>Transformer Encoder</strong>: Captures long-range dependencies
+                    <ul>
+                        <li>Multi-head attention (8 heads)</li>
+                        <li>Hidden size: 256</li>
+                        <li>4 layers with dropout (0.1)</li>
+                    </ul>
+                </li>
+                <li><strong>Fusion Layer</strong>: Combines LSTM and Transformer outputs (Hidden size: 256)</li>
+                <li><strong>Uncertainty Head</strong>: Quantifies prediction uncertainty using variational inference</li>
+            </ul>
+            
+            <hr>
+            
+            <span id="data-flow" class="section-anchor"></span>
+            <h1>Data Flow Architecture</h1>
+            
+            <h3>High-Level Overview</h3>
+            <p>The SFD system processes data through several stages:</p>
+            <div class="flow-diagram">User Input → Data Acquisition → Transformation → Analysis → Output</div>
+            
+            <h3>Visual Data Flow Diagram</h3>
+            <div class="mermaid">
+graph TB
+    %% User Interaction Layer
+    User[User Interaction<br/>SFD_GUI.py]
+    User -->|Configure Parameters| Config[Configuration<br/>config.ini]
+    User -->|Run Analysis| InitAnalysis[Initial Analysis Trigger]
+    User -->|Advanced Analysis| AdvAnalysis[Advanced Analysis GUI]
+    
+    %% Data Acquisition
+    InitAnalysis --> DataSource{Data Source}
+    DataSource -->|NOAA| NOAA[NOAA Data Download<br/>DataManager.download_noaa_data]
+    DataSource -->|Local| Local[Local File Scan]
+    DataSource -->|S3| S3[S3 Bucket Access<br/>boto3]
+    
+    NOAA --> Cache1[Check Cache<br/>AISDataTemp/parquet]
+    Local --> Cache1
+    S3 --> Cache1
+    
+    Cache1 -->|Cache Hit| ParquetFiles[Parquet Files]
+    Cache1 -->|Cache Miss| Download[Download ZIP]
+    Download --> Extract[Extract CSV]
+    Extract --> Convert[Convert CSV→Parquet]
+    Convert --> ParquetFiles
+    
+    %% Data Transformation
+    ParquetFiles --> Preprocess[Data Preprocessing<br/>load_and_preprocess_day]
+    Preprocess -->|Check Cache| Cache2[Cache Check]
+    Cache2 -->|Hit| LoadCache[Load from Cache]
+    Cache2 -->|Miss| LoadFile[Load File<br/>pandas/dask/cudf]
+    LoadFile --> Transform[Transform Data<br/>Type Conversion<br/>Filtering<br/>Cleaning]
+    Transform --> SaveCache[Save to Cache]
+    SaveCache --> ProcessedData[Processed DataFrame]
+    LoadCache --> ProcessedData
+    
+    %% Initial Analysis
+    ProcessedData --> AnomalyDetect[Anomaly Detection<br/>_process_anomaly_detection]
+    AnomalyDetect --> Beacon[AIS Beacon On/Off]
+    AnomalyDetect --> Speed[Speed Anomalies]
+    AnomalyDetect --> Course[Course Anomalies]
+    AnomalyDetect --> Zone[Zone Violations]
+    AnomalyDetect --> Loiter[Loitering Detection]
+    
+    Beacon --> Anomalies[Anomaly DataFrame]
+    Speed --> Anomalies
+    Course --> Anomalies
+    Zone --> Anomalies
+    Loiter --> Anomalies
+    
+    %% Output Generation
+    Anomalies --> Output[Output Generation]
+    Output --> Summary[anomaly_summary.csv]
+    Output --> HTML[Summary Report HTML]
+    Output --> Maps[Vessel Path Maps]
+    Output --> CacheData[Cached Data for<br/>Advanced Analysis]
+    
+    %% Advanced Analysis Flow
+    AdvAnalysis --> LoadCached[Load Cached Data<br/>load_cached_data]
+    LoadCached --> AdvData[Combined DataFrame<br/>+ Anomaly Data]
+    
+    AdvData --> AnalysisOptions{Analysis Options}
+    AnalysisOptions --> VesselSearch[Vessel Search<br/>& Filtering]
+    AnalysisOptions --> Stats[Statistical Analysis<br/>Correlation<br/>Temporal Patterns<br/>Clustering]
+    AnalysisOptions --> Viz[Visualization Tools<br/>Maps<br/>Charts<br/>Reports]
+    AnalysisOptions --> MLPred[ML Course Prediction]
+    
+    %% ML Prediction Flow
+    MLPred --> PrepData[Prepare Vessel Data<br/>prepare_vessel_data]
+    PrepData --> ProcessTraj[Process Trajectory<br/>process_trajectory]
+    ProcessTraj --> ExtractFeat[Extract Features<br/>extract_features]
+    ExtractFeat --> LoadModel[Load ML Model<br/>HybridLSTMTransformer]
+    LoadModel --> Predict[Generate Predictions<br/>Autoregressive<br/>8 time steps]
+    Predict --> Visualize[Visualize Results<br/>Folium Map<br/>Prediction Path<br/>Uncertainty Bounds]
+            </div>
+            
+            <h3>System Architecture Diagram</h3>
+            <div class="mermaid">
+graph LR
+    subgraph "User Interface Layer"
+        GUI[SFD_GUI.py<br/>Main Interface]
+        AdvGUI[AdvancedAnalysisGUI<br/>Advanced Tools]
+    end
+    
+    subgraph "Data Layer"
+        NOAA[NOAA Server]
+        Local[Local Files]
+        S3[S3 Bucket]
+        Cache[Cache Directory]
+    end
+    
+    subgraph "Processing Layer"
+        Preproc[Data Preprocessing]
+        Analysis[Anomaly Detection<br/>SFD.py]
+        AdvAnalysis[Advanced Analysis<br/>advanced_analysis.py]
+    end
+    
+    subgraph "ML Layer"
+        MLModel[ML Model<br/>HybridLSTMTransformer]
+        MLPred[Course Prediction<br/>ml_prediction_integration.py]
+    end
+    
+    subgraph "Output Layer"
+        Reports[HTML Reports]
+        Maps[Interactive Maps]
+        Data[CSV/JSON Data]
+    end
+    
+    GUI --> NOAA
+    GUI --> Local
+    GUI --> S3
+    GUI --> Preproc
+    Preproc --> Cache
+    Cache --> Analysis
+    Analysis --> Reports
+    Analysis --> Maps
+    Analysis --> Data
+    Analysis --> Cache
+    
+    AdvGUI --> Cache
+    AdvGUI --> AdvAnalysis
+    AdvAnalysis --> MLPred
+    MLPred --> MLModel
+    MLPred --> Maps
+            </div>
+            
+            <h3>How Components Work Together</h3>
+            <ol>
+                <li><strong>Data Acquisition → Transformation</strong>
+                    <ul>
+                        <li>Raw AIS data (CSV/Parquet) is downloaded or loaded</li>
+                        <li>Data is preprocessed and cached</li>
+                        <li>Cache enables fast subsequent analysis</li>
+                    </ul>
+                </li>
+                <li><strong>Transformation → Initial Analysis</strong>
+                    <ul>
+                        <li>Preprocessed data feeds into anomaly detection</li>
+                        <li>Day-by-day comparisons identify anomalies</li>
+                        <li>Results are saved for advanced analysis</li>
+                    </ul>
+                </li>
+                <li><strong>Initial Analysis → Advanced Analysis</strong>
+                    <ul>
+                        <li>Cached data and anomaly results are loaded</li>
+                        <li>Interactive tools enable deep investigation</li>
+                        <li>Statistical analysis reveals patterns</li>
+                    </ul>
+                </li>
+                <li><strong>Advanced Analysis → ML Prediction</strong>
+                    <ul>
+                        <li>Vessel data is extracted from cache</li>
+                        <li>Features are engineered for ML model</li>
+                        <li>Predictions are generated and visualized</li>
+                    </ul>
+                </li>
+                <li><strong>Output Generation</strong>
+                    <ul>
+                        <li>All stages produce outputs (CSV, HTML, maps)</li>
+                        <li>Outputs are saved to specified directory</li>
+                        <li>Results can be shared or further analyzed</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <hr>
+            
+            <span id="configuration" class="section-anchor"></span>
+            <h1>Configuration</h1>
+            
+            <h3>Configuration File: <code>config.ini</code></h3>
+            <p>The system uses <code>config.ini</code> for all settings. The GUI automatically saves your settings, but you can also edit the file directly.</p>
+            
+            <h3>Key Configuration Sections</h3>
+            
+            <h4><code>[DATA]</code> Section</h4>
+            <pre><code class="language-ini">data_directory = /path/to/data
+output_directory = /path/to/output
+start_date = 2024-10-01
+end_date = 2024-10-03</code></pre>
+            
+            <h4><code>[SHIP_FILTERS]</code> Section</h4>
+            <pre><code class="language-ini">selected_ship_types = 30,70,80</code></pre>
+            <ul>
+                <li>Comma-separated list of vessel type codes</li>
+                <li>Type 30: Fishing</li>
+                <li>Type 70: Cargo</li>
+                <li>Type 80: Tanker</li>
+                <li>(See full list in GUI)</li>
+            </ul>
+            
+            <h4><code>[ANOMALY_THRESHOLDS]</code> Section</h4>
+            <pre><code class="language-ini">min_travel_nm = 200.0
+max_travel_nm = 550.0
+cog_heading_max_diff = 45.0
+min_speed_for_cog_check = 15.0
+beacon_time_threshold_hours = 6.0</code></pre>
+            
+            <h4><code>[ANOMALY_TYPES]</code> Section</h4>
+            <pre><code class="language-ini">ais_beacon_off = True
+ais_beacon_on = True
+excessive_travel_distance_fast = True
+excessive_travel_distance_slow = True
+cog-heading_inconsistency = True
+loitering = False
+zone_violations = False</code></pre>
+            <p>Set to <code>True</code> to enable, <code>False</code> to disable</p>
+            
+            <h4><code>[ZONE_VIOLATIONS]</code> Section</h4>
+            <pre><code class="language-ini">zone_0_name = Strait of Hormuz
+zone_0_lat_min = 25.0
+zone_0_lat_max = 27.0
+zone_0_lon_min = 55.0
+zone_0_lon_max = 57.5
+zone_0_is_selected = True</code></pre>
+            <ul>
+                <li>Define restricted zones</li>
+                <li>Set <code>is_selected = True</code> to enable monitoring</li>
+            </ul>
+            
+            <h4><code>[AWS]</code> Section (for S3 access)</h4>
+            <pre><code class="language-ini">use_s3 = False
+s3_bucket_name = your-bucket-name
+s3_access_key = your-access-key
+s3_secret_key = your-secret-key
+s3_region = us-east-1</code></pre>
+            
+            <h4><code>[Processing]</code> Section</h4>
+            <pre><code class="language-ini">use_gpu = True
+use_dask = True</code></pre>
+            <ul>
+                <li><code>use_gpu</code>: Enable GPU acceleration (if available)</li>
+                <li><code>use_dask</code>: Use Dask for parallel processing</li>
+            </ul>
+            
+            <h3>Environment Variables (Optional)</h3>
+            <p>For S3 access, you can also use environment variables:</p>
+            <pre><code class="language-bash">export AWS_ACCESS_KEY_ID=your-key
+export AWS_SECRET_ACCESS_KEY=your-secret</code></pre>
+            
+            <hr>
+            
+            <span id="output-files" class="section-anchor"></span>
+            <h1>Output Files</h1>
+            
+            <h3>Initial Analysis Outputs</h3>
+            
+            <h4>1. <code>anomaly_summary.csv</code></h4>
+            <ul>
+                <li><strong>Location</strong>: Output directory</li>
+                <li><strong>Content</strong>: All detected anomalies with details</li>
+                <li><strong>Columns</strong>: MMSI, BaseDateTime, LAT, LON, AnomalyType, Date, ReportDate, SpeedAnomaly, PositionAnomaly, CourseAnomaly flags, Additional metadata</li>
+            </ul>
+            
+            <h4>2. <code>Summary_Report_YYYYMMDD_HHMMSS.html</code></h4>
+            <ul>
+                <li><strong>Location</strong>: Output directory</li>
+                <li><strong>Content</strong>: Comprehensive HTML report</li>
+                <li><strong>Includes</strong>: Analysis summary statistics, Anomaly counts by type, Vessel statistics, Interactive charts, Links to vessel maps</li>
+            </ul>
+            
+            <h4>3. <code>maps/</code> Directory</h4>
+            <ul>
+                <li><strong>Location</strong>: <code>output_directory/maps/</code></li>
+                <li><strong>Content</strong>: Individual vessel path maps (HTML)</li>
+                <li><strong>Format</strong>: Folium interactive maps</li>
+                <li><strong>Features</strong>: Vessel trajectories, Anomaly markers, Heat maps</li>
+            </ul>
+            
+            <h4>4. <code>run_info.json</code></h4>
+            <ul>
+                <li><strong>Location</strong>: Output directory</li>
+                <li><strong>Content</strong>: Analysis metadata</li>
+                <li><strong>Includes</strong>: Date range, Vessel types analyzed, Configuration settings, Processing timestamps</li>
+            </ul>
+            
+            <h3>Advanced Analysis Outputs</h3>
+            <ul>
+                <li><strong>Correlation Matrices</strong>: CSV and PNG formats</li>
+                <li><strong>Temporal Charts</strong>: PNG/HTML formats</li>
+                <li><strong>Clustering Results</strong>: CSV with cluster assignments</li>
+            </ul>
+            
+            <h3>ML Prediction Outputs</h3>
+            <ul>
+                <li><strong>Prediction Map</strong>: HTML file with interactive map</li>
+                <li><strong>Prediction Data</strong>: JSON format (optional)</li>
+                <li><strong>Statistics</strong>: Prediction accuracy metrics</li>
+            </ul>
+            
+            <h3>Cache Files</h3>
+            <p><strong>Location</strong>:</p>
+            <ul>
+                <li><strong>Windows</strong>: <code>%USERPROFILE%\.ais_data_cache\</code></li>
+                <li><strong>Linux/macOS</strong>: <code>~/.ais_data_cache/</code></li>
+                <li><strong>Alternative</strong>: <code>AISDataTemp/parquet/</code> (project directory)</li>
+            </ul>
+            <p><strong>Format</strong>: Parquet files named <code>ais-YYYY-MM-DD.parquet</code></p>
+            <p><strong>Cache Management</strong>: Cache is automatically created and used. It speeds up subsequent analysis runs and can be cleared via <code>utils.clear_cache()</code> or manually.</p>
+            
+            <hr>
+            
+            <span id="troubleshooting" class="section-anchor"></span>
+            <h1>Troubleshooting</h1>
+            
+            <h3>Common Issues and Solutions</h3>
+            
+            <div class="card">
+                <h4>1. "Module not found" Errors</h4>
+                <p><strong>Problem</strong>: Missing Python packages</p>
+                <p><strong>Solution</strong>:</p>
+                <pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+                <p>If specific package fails:</p>
+                <pre><code class="language-bash">pip install &lt;package-name&gt;</code></pre>
+            </div>
+            
+            <div class="card">
+                <h4>2. GUI Won't Open</h4>
+                <p><strong>Problem</strong>: tkinter not installed (Linux)</p>
+                <p><strong>Solution</strong>:</p>
+                <pre><code class="language-bash"># Ubuntu/Debian
+sudo apt-get install python3-tk
+
+# Fedora
+sudo dnf install python3-tkinter</code></pre>
+            </div>
+            
+            <div class="card">
+                <h4>3. NOAA Download Fails</h4>
+                <p><strong>Problem</strong>: Network issues or NOAA server problems</p>
+                <p><strong>Solutions</strong>:</p>
+                <ul>
+                    <li>Check internet connection</li>
+                    <li>Try again later (NOAA servers may be busy)</li>
+                    <li>Use local files instead</li>
+                    <li>Check firewall settings</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h4>4. "Out of Memory" Errors</h4>
+                <p><strong>Problem</strong>: Dataset too large for available RAM</p>
+                <p><strong>Solutions</strong>:</p>
+                <ul>
+                    <li>Reduce date range (analyze fewer days at once)</li>
+                    <li>Enable Dask processing: <code>use_dask = True</code> in config.ini</li>
+                    <li>Close other applications</li>
+                    <li>Use a machine with more RAM</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h4>5. ML Prediction Fails</h4>
+                <p><strong>Problem</strong>: Model not found or insufficient data</p>
+                <p><strong>Solutions</strong>:</p>
+                <ul>
+                    <li>Ensure <code>best_model.pt</code> exists in <code>ml_course_prediction/models/trained/</code></li>
+                    <li>Check vessel has ≥24 hours of data</li>
+                    <li>Verify vessel has ≥2 data points</li>
+                    <li>Check logs for specific error messages</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h4>6. GPU Not Detected</h4>
+                <p><strong>Problem</strong>: PyTorch can't find GPU</p>
+                <p><strong>Solutions</strong>:</p>
+                <ul>
+                    <li><strong>NVIDIA</strong>: Install CUDA-enabled PyTorch
+                        <pre><code class="language-bash">pip install torch --index-url https://download.pytorch.org/whl/cu118</code></pre>
+                    </li>
+                    <li><strong>AMD</strong>: Install ROCm-enabled PyTorch (Linux recommended)</li>
+                    <li><strong>Fallback</strong>: System will use CPU automatically</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h4>7. Slow Processing</h4>
+                <p><strong>Problem</strong>: Analysis takes too long</p>
+                <p><strong>Solutions</strong>:</p>
+                <ul>
+                    <li>Enable caching (automatic)</li>
+                    <li>Use GPU acceleration (if available)</li>
+                    <li>Reduce date range</li>
+                    <li>Filter by vessel types</li>
+                    <li>Use Dask for parallel processing</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h4>8. Cache Issues</h4>
+                <p><strong>Problem</strong>: Stale or corrupted cache</p>
+                <p><strong>Solution</strong>: Clear cache</p>
+                <pre><code class="language-python">from utils import clear_cache
+clear_cache()</code></pre>
+                <p>Or manually delete cache directory:</p>
+                <ul>
+                    <li>Windows: <code>%USERPROFILE%\.ais_data_cache\</code></li>
+                    <li>Linux/macOS: <code>~/.ais_data_cache/</code></li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h4>9. S3 Access Denied</h4>
+                <p><strong>Problem</strong>: AWS credentials incorrect</p>
+                <p><strong>Solutions</strong>:</p>
+                <ul>
+                    <li>Verify access key and secret key in config.ini</li>
+                    <li>Check IAM permissions</li>
+                    <li>Verify bucket name and region</li>
+                    <li>Use environment variables instead</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h4>10. Date Range Errors</h4>
+                <p><strong>Problem</strong>: Invalid date format or range</p>
+                <p><strong>Solution</strong>: Use format <code>YYYY-MM-DD</code></p>
+                <ul>
+                    <li>Correct: <code>2024-10-01</code></li>
+                    <li>Incorrect: <code>10/01/2024</code> or <code>01-10-2024</code></li>
+                </ul>
+            </div>
+            
+            <h3>Getting Help</h3>
+            <ol>
+                <li><strong>Check Logs</strong>:
+                    <ul>
+                        <li><code>ais_fraud_detection_gui.log</code> (GUI)</li>
+                        <li><code>sfd.log</code> (Main analysis)</li>
+                        <li><code>advanced_analysis_standalone.log</code> (Advanced analysis)</li>
+                    </ul>
+                </li>
+                <li><strong>Enable Debug Mode</strong>:
+                    <ul>
+                        <li>Add <code>--debug</code> flag when running from command line</li>
+                        <li>Set <code>log_level = DEBUG</code> in config.ini</li>
+                    </ul>
+                </li>
+                <li><strong>Verify Installation</strong>:
+                    <pre><code class="language-bash">python -c "import pandas, numpy, torch, folium; print('OK')"</code></pre>
+                </li>
+            </ol>
+            
+            <hr>
+            
+            <span id="advanced-topics" class="section-anchor"></span>
+            <h1>Advanced Topics</h1>
+            
+            <h3>Building an Executable</h3>
+            <p>Create a standalone executable using PyInstaller:</p>
+            <pre><code class="language-bash">python build_executable.py</code></pre>
+            <p>Or manually:</p>
+            <pre><code class="language-bash">pyinstaller SFD.spec</code></pre>
+            <p>See <code>BUILD_INSTRUCTIONS.md</code> for detailed instructions.</p>
+            
+            <h3>Training ML Models</h3>
+            <p>To train your own ML model for course prediction:</p>
+            <ol>
+                <li><strong>Prepare Training Data</strong>:
+                    <ul>
+                        <li>Collect AIS data for training period</li>
+                        <li>Ensure data has sufficient vessel trajectories</li>
+                    </ul>
+                </li>
+                <li><strong>Run Training</strong>:
+                    <pre><code class="language-bash">cd ml_course_prediction/training
+python train.py --config ../models/configs/default_config.yaml</code></pre>
+                </li>
+                <li><strong>Model Will Be Saved</strong>:
+                    <ul>
+                        <li>Location: <code>ml_course_prediction/models/trained/best_model.pt</code></li>
+                        <li>Training history: <code>ml_course_prediction/models/trained/training_history.json</code></li>
+                    </ul>
+                </li>
+            </ol>
+            <p>See <code>ml_course_prediction/training/</code> directory for training scripts.</p>
+            
+            <h3>Custom Anomaly Detectors</h3>
+            <p>To add custom anomaly detection:</p>
+            <ol>
+                <li>Create detection function in <code>SFD.py</code></li>
+                <li>Add to <code>_process_anomaly_detection()</code> function</li>
+                <li>Add configuration options to <code>config.ini</code></li>
+                <li>Update GUI to enable/disable new detector</li>
+            </ol>
+            
+            <h3>Performance Optimization</h3>
+            <p><strong>For Large Datasets</strong>:</p>
+            <ul>
+                <li>Use GPU acceleration (NVIDIA CUDA or AMD ROCm)</li>
+                <li>Enable Dask parallel processing</li>
+                <li>Increase cache size</li>
+                <li>Process in smaller date ranges</li>
+            </ul>
+            
+            <p><strong>For Faster Analysis</strong>:</p>
+            <ul>
+                <li>Use cached data when possible</li>
+                <li>Filter by vessel types</li>
+                <li>Disable unnecessary anomaly detectors</li>
+                <li>Use SSD storage for cache</li>
+            </ul>
+            
+            <h3>Integration with Other Systems</h3>
+            <p>The system can be integrated via:</p>
+            <ul>
+                <li><strong>Command Line</strong>: Use <code>SFD.py</code> with arguments</li>
+                <li><strong>Python API</strong>: Import modules and call functions directly</li>
+                <li><strong>Batch Processing</strong>: Create scripts to process multiple date ranges</li>
+            </ul>
+            
+            <p>Example Python API usage:</p>
+            <pre><code class="language-python">from SFD import load_config, _process_anomaly_detection
+import pandas as pd
+
+config = load_config('config.ini')
+file_paths = ['data1.parquet', 'data2.parquet']
+dates = [datetime(2024, 10, 1), datetime(2024, 10, 2)]
+
+anomalies = _process_anomaly_detection(file_paths, dates, config)</code></pre>
+            
+            <hr>
+            
+            <span id="resources" class="section-anchor"></span>
+            <h1>Additional Resources</h1>
+            
+            <h3>Documentation Files</h3>
+            <ul>
+                <li><code>DATA_FLOW_DIAGRAM.md</code>: Detailed data flow documentation</li>
+                <li><code>BUILD_INSTRUCTIONS.md</code>: Executable building guide</li>
+                <li><code>COMPLETE_FILTER_STRUCTURE.txt</code>: Filter configuration details</li>
+            </ul>
+            
+            <h3>Project Structure</h3>
+            <pre><code class="language-text">SFD_Beta_release-main/
+├── SFD_GUI.py              # Main GUI application
+├── SFD.py                  # Core analysis engine
+├── advanced_analysis.py    # Advanced analysis tools
+├── ml_prediction_integration.py  # ML integration
+├── config.ini               # Configuration file
+├── requirements.txt         # Python dependencies
+├── ml_course_prediction/   # ML model code
+│   ├── models/             # Model architectures
+│   ├── training/           # Training scripts
+│   └── utils/               # ML utilities
+├── utils.py                # General utilities
+├── map_utils.py            # Mapping utilities
+└── AISDataTemp/            # Temporary data storage</code></pre>
+            
+            <h3>External Resources</h3>
+            <ul>
+                <li><strong>NOAA AIS Data</strong>: <a href="https://coast.noaa.gov/htdata/CMSP/AISDataHandler/" target="_blank">https://coast.noaa.gov/htdata/CMSP/AISDataHandler/</a></li>
+                <li><strong>AIS Data Format</strong>: <a href="https://coast.noaa.gov/data/marinecadastre/ais/" target="_blank">https://coast.noaa.gov/data/marinecadastre/ais/</a></li>
+                <li><strong>PyTorch Documentation</strong>: <a href="https://pytorch.org/docs/" target="_blank">https://pytorch.org/docs/</a></li>
+                <li><strong>Folium Maps</strong>: <a href="https://python-visualization.github.io/folium/" target="_blank">https://python-visualization.github.io/folium/</a></li>
+            </ul>
+            
+            <hr>
+            
+            <h2>License and Credits</h2>
+            <p><strong>Version</strong>: 2.1 Beta<br>
+            <strong>Team</strong>: Dreadnaught<br>
+            <strong>Members</strong>: Alex Giacomello, Christopher Matherne, Rupert Rigg, Zachary Zhao</p>
+            
+            <h3>Acknowledgments</h3>
+            <ul>
+                <li>NOAA for providing AIS data</li>
+                <li>Open source community for excellent libraries</li>
+                <li>PyTorch team for ML framework</li>
+                <li>Folium team for mapping capabilities</li>
+            </ul>
+            
+            <hr>
+            
+            <h2>Support and Contributions</h2>
+            <p>For issues, questions, or contributions:</p>
+            <ol>
+                <li>Check the troubleshooting section</li>
+                <li>Review log files for errors</li>
+                <li>Consult documentation files</li>
+                <li>Contact the development team</li>
+            </ol>
+            
+            <p><strong>Last Updated</strong>: 2024<br>
+            <strong>Documentation Version</strong>: 1.0</p>
+        </main>
+    </div>
+    
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Team Dreadnaught. AIS Shipping Fraud Detection System v2.1 Beta</p>
+            <p>Alex Giacomello, Christopher Matherne, Rupert Rigg, Zachary Zhao</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 100; // Account for sticky header
+                    const targetPosition = target.offsetTop - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Highlight active navigation link
+        const sections = document.querySelectorAll('h1, h2');
+        const navLinks = document.querySelectorAll('.sidebar nav a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id') || section.parentElement.querySelector('.section-anchor')?.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
